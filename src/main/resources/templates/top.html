@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo</title>
+    ToDo
+</head>
+<body>
+    <div class="Today">　
+        <p>本日の日付 : <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p>
+    </div>
+    <div>
+        <input type="button" value="新規タスク"></a>
+    </div>
+    タスク内容　　　　ステータス　　　　　　　　タスク期限
+    <div class="message-icon" th:each="content : ${contents}">
+        <div class="text">
+            <br> <span th:text="${content.content}"/></br>
+        </div>
+        <select name="prefecture">
+            <option value="1">未着手</option>
+            <option value="2">完了</option>
+            <option value="3">ステイ中</option>
+            <option value="4">実行中</option>
+        </select>
+        <input type="button" value="変更"></a>
+        <div style="background-color: yellow;"><span th:text="${content.limitDate}"/></div>
+    </div>
+</body>
+</html>
