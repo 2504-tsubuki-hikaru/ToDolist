@@ -1,7 +1,7 @@
 package com.example.hikaru_tsubuki.service;
 
 
-import com.example.hikaru_tsubuki.form.controller.form.TaskForm;
+import com.example.hikaru_tsubuki.controller.form.TaskForm;
 import com.example.hikaru_tsubuki.repository.TaskRepository;
 import com.example.hikaru_tsubuki.repository.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class TaskService {
     TaskRepository taskRepository;
 
     //タスク全件取得処理
-    public List<TaskForm> findAllReport() {
+    public List<TaskForm> findAllTask() {
         List<Task> results = taskRepository.findAllByOrderByLimitDateAsc();
         List<TaskForm> tasks = setTaskForm(results);
         return tasks;
@@ -37,5 +37,4 @@ public class TaskService {
         }
         return tasks;
     }
-
-    }
+}

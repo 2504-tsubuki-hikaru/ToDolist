@@ -1,4 +1,4 @@
-package com.example.hikaru_tsubuki.form.controller.form;
+package com.example.hikaru_tsubuki.controller.form;
 
 import java.io.Serializable;
 import java.util.Date;

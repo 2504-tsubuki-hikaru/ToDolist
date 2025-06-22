@@ -6,25 +6,31 @@
     ToDo
 </head>
 <body>
-    <div class="Today">　
-        <p>本日の日付 : <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p>
+<div class="Today">　
+    <p>本日の日付 : <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"></span></p>
+</div>
+<div>
+    <input type="button" value="新規タスク">
+</div>　　　　　　　　　　　　
+<div class="message-icon" th:each="tasks : ${tasksData}">
+    <div class="text">
+        <br/>タスク内容 <span th:text="${tasks.content}"></span>
     </div>
-    <div>
-        <input type="button" value="新規タスク"></a>
+    <select name="cities">
+        <option value="tokyo" th:selected="${tasks.status == 1}">未着手</option>
+        <option value="osaka" th:selected="${tasks.status == 2}">実行中</option>
+        <option value="nagoya" th:selected="${tasks.status == 3}">ステイ中</option>
+        <option value="nagoya" th:selected="${tasks.status == 4}">完了</option>
+    </select>
+    <input type="button" value="変更"></a>
+
+   <!-- <div class="limit-date"  th:if="${#dates.format(now, 'yyyy/MM/dd') >= #dates.format(tasks.limitDate, 'yyyy/MM/dd')}">
+        タスク期限 : <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}" style="background-color:pink;"></span>
     </div>
-    タスク内容　　　　ステータス　　　　　　　　タスク期限
-    <div class="message-icon" th:each="content : ${contents}">
-        <div class="text">
-            <br> <span th:text="${content.content}"/></br>
-        </div>
-        <select name="prefecture">
-            <option value="1">未着手</option>
-            <option value="2">完了</option>
-            <option value="3">ステイ中</option>
-            <option value="4">実行中</option>
-        </select>
-        <input type="button" value="変更"></a>
-        <div style="background-color: yellow;"><span th:text="${content.limitDate}"/></div>
-    </div>
+    <div class="limit-date"  th:if="${#dates.format(now, 'yyyy/MM/dd') < #dates.format(tasks.limitDate, 'yyyy/MM/dd')}">
+        タスク期限 : <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}" style="background-color:yellow;"></span>
+    </div>&ndash;&gt;-->
+
+</div>
 </body>
 </html>
