@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,10 +22,13 @@ public class FormController {
     TaskService taskService;
 
     @GetMapping("/")
-    public ModelAndView top() {
+    public ModelAndView top(@RequestParam(name="start")String start,
+                            @RequestParam(name="end")String end,
+                            @RequestParam(name="status") int status,
+                            @RequestParam(name="content") String content) throws ParseException  {
 
         ModelAndView mav = new ModelAndView();
-        List<TaskForm> tasksData = taskService.findAllTask();
+        List<TaskForm> tasksData = taskService.findAllTask(start, end, status, content);
         LocalDate localDate = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String now = localDate.format(dateTimeFormatter);
