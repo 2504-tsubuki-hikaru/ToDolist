@@ -11,5 +11,5 @@ public class TaskForm implements Serializable {
     private int id;
     private String content;
     private int status;
-    private Date limitDate;
+    private String limitDate;
 }

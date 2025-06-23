@@ -7,6 +7,7 @@ import com.example.hikaru_tsubuki.repository.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +33,19 @@ public class TaskService {
             task.setId(result.getId());
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
-            task.setLimitDate(result.getLimitDate());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //DBからとってきたlimit_dateを指定したフォーマットにしたい。
+            //task.setLimitDate=date型が引数に必要。sdf.format(result.getLimitDate()=date型を文字列にするメソッド
+            //型が一致していない。
+            task.setLimitDate(sdf.format(result.getLimitDate()));
+
             tasks.add(task);
         }
         return tasks;
+    }
+
+    //タスク削除処理
+    public void  deleteTask(Integer id) {
+        taskRepository.deleteById(id);
     }
 }
