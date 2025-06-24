@@ -14,24 +14,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static io.micrometer.common.util.StringUtils.isBlank;
+
 @Service
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
 
     //タスク全件取得処理
-    public List<TaskForm> findAllTask(String start, String end, int status, String content) throws ParseException {
+    public List<TaskForm> findAllTask(String start, String end, Integer status, String content) throws ParseException {
 
         String strStartDate;
         String strEndDate;
 
-        if (!StringUtils.isBlank(start)) {
+        if (!isBlank(start)) {
             strStartDate = start + " 00:00:00";
         } else {
             strStartDate = "2020-01-01 00:00:00";
         }
 
-        if (!StringUtils.isBlank(end)) {
+        if (!isBlank(end)) {
             strEndDate = end + " 23:59:59";
         } else {
             strEndDate = "2100-12-31 23:59:59";
@@ -42,9 +44,24 @@ public class TaskService {
         Date startDate = sdFormat.parse(strStartDate);
         Date endDate = sdFormat.parse(strEndDate);
 
-        List<Task> results = taskRepository.findAllByOrderByLimitDateAsc(startDate, endDate, status, content);
-        List<TaskForm> tasks = setTaskForm(results);
-        return tasks;
+        if (StringUtils.isBlank(content) && status == null) {
+            List<Task> results = taskRepository.findByLimitDateBetweenOrderByLimitDateAsc(startDate, endDate);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        } else if (!StringUtils.isBlank(content) && status != null) {
+            List<Task> results = taskRepository.findByLimitDateBetweenAndContentAndStatusOrderByLimitDateAsc(startDate, endDate, content, status);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        } else if (StringUtils.isBlank(content) && status != null) {
+            List<Task> results = taskRepository.findByLimitDateBetweenAndStatusOrderByLimitDateAsc(startDate, endDate, status);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        } else if (!StringUtils.isBlank(content) && status == null) {
+            List<Task> results = taskRepository.findByLimitDateBetweenAndContentOrderByLimitDateAsc(startDate, endDate, content);
+            List<TaskForm> tasks = setTaskForm(results);
+            return tasks;
+        }
+        return List.of();
     }
 
     //DBから取得したデータをFormに入れ替え。
@@ -71,5 +88,20 @@ public class TaskService {
     //タスク削除処理
     public void  deleteTask(Integer id) {
         taskRepository.deleteById(id);
+    }
+
+    public void saveTask(TaskForm reqTask) {
+        //setReportEntityメソッドでFormからEntityに詰め替えている。
+        Task saveReport = setTaskEntity(reqTask);
+        taskRepository.save(saveReport);
+    }
+
+    //controllerから取得した情報をEntityに設定
+    private Task setTaskEntity(TaskForm reqReport) {
+        Task task = new Task();
+        task.setId(reqReport.getId());
+        task.setContent(reqReport.getContent());
+        task.setUpdatedDate(new Date());
+        return task;
     }
 }
