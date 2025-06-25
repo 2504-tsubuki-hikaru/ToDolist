@@ -44,6 +44,7 @@ public class TaskService {
         Date startDate = sdFormat.parse(strStartDate);
         Date endDate = sdFormat.parse(strEndDate);
 
+        //絞込みの引数の条件によってSQLを変えるので条件分のSQLを用意。
         if (StringUtils.isBlank(content) && status == null) {
             List<Task> results = taskRepository.findByLimitDateBetweenOrderByLimitDateAsc(startDate, endDate);
             List<TaskForm> tasks = setTaskForm(results);
@@ -90,18 +91,35 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    public void saveTask(TaskForm reqTask) {
+    //ステータス変更処理
+    public void updateStatus(Integer id, Integer status) {
         //setReportEntityメソッドでFormからEntityに詰め替えている。
-        Task saveReport = setTaskEntity(reqTask);
-        taskRepository.save(saveReport);
+        taskRepository.updateStatus(id,status);
     }
 
-    //controllerから取得した情報をEntityに設定
-    private Task setTaskEntity(TaskForm reqReport) {
+    /*
+     * タスク追加情報登録処理
+     */
+    public void saveTask(TaskForm reqTask) throws ParseException {
+        Task saveTask = setTaskEntity(reqTask);
+        taskRepository.save(saveTask);
+    }
+
+    /*
+     * 引数の情報をEntityに設定
+     */
+    private Task setTaskEntity(TaskForm reqTask) throws ParseException {
         Task task = new Task();
-        task.setId(reqReport.getId());
-        task.setContent(reqReport.getContent());
+        task.setContent(reqTask.getContent());
+        task.setStatus(reqTask.getStatus());
+        //String型からDate型に型変換。
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date FormatDate = sdFormat.parse(reqTask.getLimitDate());
+        task.setLimitDate(FormatDate);
         task.setUpdatedDate(new Date());
+        task.setCreatedDate(new Date());
+
+        //task.setLimitDate(reqTask.getLimitDate());
         return task;
     }
 }

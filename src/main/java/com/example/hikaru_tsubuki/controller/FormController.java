@@ -1,9 +1,12 @@
 package com.example.hikaru_tsubuki.controller;
 
 import com.example.hikaru_tsubuki.controller.form.TaskForm;
+import com.example.hikaru_tsubuki.repository.entity.Task;
 import com.example.hikaru_tsubuki.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,17 +42,55 @@ public class FormController {
 
     }
 
-    //タスク削除処理
+    /*
+     * タスク削除処理
+     */
     @DeleteMapping("/delete/{id}")
     public ModelAndView deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
         return new ModelAndView("redirect:/");
     }
 
+    /*
+     * ステータス変更処理
+     */
     @PutMapping("/update/{id}")
-    public ModelAndView updateContent(@PathVariable Integer id,@ModelAttribute("formModel") TaskForm task) {
-        task.setId(id);
-        taskService.saveTask(task);
+    public ModelAndView updateStatus(@PathVariable Integer id,
+                                      @ModelAttribute("status") Integer status) {
+        taskService.updateStatus(id, status);
+        return new ModelAndView("redirect:/");
+    }
+
+    /*
+     * タスク追加画面遷移処理
+     */
+    @GetMapping("/new")
+    public ModelAndView nweTask() {
+        ModelAndView mav = new ModelAndView();
+        // form用の空のentityを準備
+        TaskForm taskForm = new TaskForm();
+        // 画面遷移先を指定
+        mav.setViewName("/new");
+        mav.addObject("formModel", taskForm);
+        return mav;
+    }
+
+    /*
+     * タスク追加処理
+     */
+    @PostMapping("/add")
+    public ModelAndView addTask(@Validated @ModelAttribute("formModel") TaskForm taskForm, BindingResult result) throws ParseException {
+        if(result.hasErrors()) {
+            ModelAndView mav = new ModelAndView();
+            //エラーの時は新規投稿画面でエラーを出したいから遷移先を指定
+            mav.setViewName("/new");
+            //引数をそのまま返す。
+            mav.addObject("formModel", taskForm);
+            return mav;
+    }
+        //DBにタスク追加情報を登録
+        taskService.saveTask(taskForm);
+        // rootへリダイレクト
         return new ModelAndView("redirect:/");
     }
 }

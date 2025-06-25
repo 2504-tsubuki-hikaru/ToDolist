@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>addTask</title>
+</head>
+<body>
+<div class="header-tasks">
+    <h2>タスク追加</h2>
+</div>
+<div class="main-contents">
+    <!--エラーメッセージの表示-->
+    <!--このformModelにはエラーメッセージが入っている。-->
+
+    <!-- 新規投稿入力フォーム-->
+    <form method="post" action="/add" >
+        <div class="form-area">
+            <div th:object="${formModel}" >
+                <!--    th:errors="*{content}"の役割はBindingResult の中で、contentフィールド(contentにつけたNotBlank)に関連付けられているエラーメッセージを出力-->
+                <!--th:if="${#fields.hasErrors('content')}"= contentの中にエラーメッセージがある場合のみにメッセージを表示-->
+                <div class="message-icon" th:if="${#fields.hasErrors('content')}"  th:errors="*{content}">
+                </div>
+            </div>
+            <label>タスク内容</label>
+            <textarea class="tweet-box" name="content" size="20" maxlength="200"></textarea><br/>
+            <label>タスク期限</label>
+            <input type="date" name="limitDate" value="${limitDate}">
+            <input type="hidden" name="status" value=1>
+            <input type="submit" value="追加"/>
+        </div>
+    </form>
+</div>
+<div class="footer-contents">
+    <form action="/">
+        <input type="submit" value="戻る"/>
+    </form>
+</div>
+</body>
+</html>
