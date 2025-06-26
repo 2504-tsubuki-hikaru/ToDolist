@@ -18,7 +18,9 @@
             <div th:object="${formModel}" >
                 <!--    th:errors="*{content}"の役割はBindingResult の中で、contentフィールド(contentにつけたNotBlank)に関連付けられているエラーメッセージを出力-->
                 <!--th:if="${#fields.hasErrors('content')}"= contentの中にエラーメッセージがある場合のみにメッセージを表示-->
-                <div class="message-icon" th:if="${#fields.hasErrors('content')}"  th:errors="*{content}">
+                <div class="error-message" th:if="${#fields.hasErrors('content')}"  th:errors="*{content}">
+                </div>
+                <div class="error-message" th:if="${#fields.hasErrors('limitDate')}"  th:errors="*{limitDate}">
                 </div>
             </div>
             <label>タスク内容</label>

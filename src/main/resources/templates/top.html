@@ -48,17 +48,21 @@
                         <input type="submit" value="変更">
                 </form>
             </div>
-
-            <div class="limit-date"  th:if="${now gt tasks.limitDate}">
-                タスク期限 : <span th:text="${tasks.limitDate}" style="background-color:pink;"></span>
+            <!--date型を文字列にして比較-->
+           <div class="limit-date"  th:if="${now gt tasks.limitDate}">
+                タスク期限 : <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}" style="background-color:pink;"></span>
+          </div>
+           <div class="limit-date"  th:if="${now lt tasks.limitDate}">
+               タスク期限 : <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}" style="background-color:yellow"></span>
+           </div>
+            <div class="edit-button">
+            <a th:href="@{/edit/{id}(id=${tasks.id})}">
+                <input type="button" value="編集"></a>
             </div>
-            <div class="limit-date"  th:if="${now lt tasks.limitDate}">
-                タスク期限 : <span th:text="${tasks.limitDate}" style="background-color:yellow"></span>
-            </div>
-
             <div class="delete-button">
+                <dialog>これはモードレスダイアログです。</dialog>
                 <form th:action="@{/delete/{id}(id=${tasks.id})}" th:method="delete">
-                    <input type="submit" value="削除">
+                    <input type="submit" onclick="return confirm('本当に削除しますか？');" value="削除">
                 </form>
             </div>
         </div>

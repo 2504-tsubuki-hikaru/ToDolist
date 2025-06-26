@@ -75,12 +75,9 @@ public class TaskService {
             task.setId(result.getId());
             task.setContent(result.getContent());
             task.setStatus(result.getStatus());
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            //DBからとってきたlimit_dateを指定したフォーマットにしたい。
-            //task.setLimitDate=date型が引数に必要。sdf.format(result.getLimitDate()=date型を文字列にするメソッド
-            //型が一致していない。
-            task.setLimitDate(sdf.format(result.getLimitDate()));
-
+            task.setLimitDate(result.getLimitDate());
+            task.setUpdatedDate(result.getUpdatedDate());
+            task.setCreatedDate(result.getCreatedDate());
             tasks.add(task);
         }
         return tasks;
@@ -98,7 +95,7 @@ public class TaskService {
     }
 
     /*
-     * タスク追加情報登録処理
+     * タスク追加登録処理
      */
     public void saveTask(TaskForm reqTask) throws ParseException {
         Task saveTask = setTaskEntity(reqTask);
@@ -112,14 +109,42 @@ public class TaskService {
         Task task = new Task();
         task.setContent(reqTask.getContent());
         task.setStatus(reqTask.getStatus());
-        //String型からDate型に型変換。
-        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date FormatDate = sdFormat.parse(reqTask.getLimitDate());
-        task.setLimitDate(FormatDate);
+        task.setLimitDate(reqTask.getLimitDate());
         task.setUpdatedDate(new Date());
         task.setCreatedDate(new Date());
+        return task;
+    }
 
-        //task.setLimitDate(reqTask.getLimitDate());
+    /*
+     * レコード1件取得
+     */
+    public TaskForm editTask(Integer id) {
+        List<Task> results = new ArrayList<>();
+        //キーに該当するレコードの取得をする。該当するキーが無ければnullを返す。
+        results.add((Task) taskRepository.findById(id).orElse(null));
+        List<TaskForm> tasks = setTaskForm(results);
+        return tasks.get(0);
+    }
+
+    /*
+     * 編集タスク登録処理
+     */
+    public void saveEditTask(TaskForm taskForm) throws ParseException {
+        Task saveTask = setEditTaskEntity(taskForm);
+        taskRepository.save(saveTask);
+    }
+
+    /*
+     * 引数の情報をEntityに設定
+     */
+    private Task setEditTaskEntity(TaskForm taskForm) throws ParseException {
+        Task task = new Task();
+        task.setId(taskForm.getId());
+        task.setContent(taskForm.getContent());
+        task.setStatus(taskForm.getStatus());
+        task.setLimitDate(taskForm.getLimitDate());
+        task.setCreatedDate(taskForm.getCreatedDate());
+        task.setUpdatedDate(new Date());
         return task;
     }
 }
