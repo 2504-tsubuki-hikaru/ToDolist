@@ -16,8 +16,13 @@ public class TaskForm implements Serializable {
 
     private int id;
 
-    @NotBlank(message="タスクを入力してください")
-    @Length(max = 140, message="タスクは140文字以内で入力してください")
+    //@Pattern(regexp = "[\\u3000]+$", message = "タスクは空白文字のみではいけません。")
+    //@NotBlank(message="タスクを入力してください")
+
+    //^(?!= 否定形(～で始まらない）(|　)= 全角スペースを通す。
+    //"[^(?!|　)]"= 全角スペースで始まらない物を通す。（全角スペースはエラー表示）
+    @Pattern(regexp = "^(?!^[\\s　]+$)([\\s\\S]*)$", message = "空白または改行のみの入力は許可されていません。")
+    @Length(max = 141, message="タスクは140文字以内で入力してください")
     private String content;
 
     private int status;

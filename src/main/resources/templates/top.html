@@ -35,7 +35,7 @@
     　　　　　　　　　　　　
         <div class="message-icon" th:each="tasks : ${tasksData}">
             <div class="text">
-                <br/>タスク内容 <span th:text="${tasks.content}"></span>
+                <br/>タスク内容 <pre><span th:text="${tasks.content}"></span></pre>
             </div>
             <div class="change-button">
                 <form th:action="@{/update/{id}(id=${tasks.id})}"th:method="put">
@@ -45,7 +45,7 @@
                         <option value="3" th:selected="${tasks.status == 3}">ステイ中</option>
                         <option value="4" th:selected="${tasks.status == 4}">完了</option>
                     </select>
-                        <input type="submit" value="変更">
+                        <input type="submit" onclick="return confirm('本当に変更しますか？');" value="変更">
                 </form>
             </div>
             <!--date型を文字列にして比較-->
@@ -60,7 +60,6 @@
                 <input type="button" value="編集"></a>
             </div>
             <div class="delete-button">
-                <dialog>これはモードレスダイアログです。</dialog>
                 <form th:action="@{/delete/{id}(id=${tasks.id})}" th:method="delete">
                     <input type="submit" onclick="return confirm('本当に削除しますか？');" value="削除">
                 </form>
