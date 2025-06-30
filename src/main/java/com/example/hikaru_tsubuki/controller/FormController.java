@@ -80,14 +80,15 @@ public class FormController {
      */
     @PostMapping("/add")
     public ModelAndView addTask(@ModelAttribute("formModel") @Validated TaskForm taskForm, BindingResult result) throws ParseException {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView();
             //エラーの時は新規投稿画面でエラーを出したいから遷移先を指定
             mav.setViewName("/new");
             //引数をそのまま返す。
             mav.addObject("formModel", taskForm);
             return mav;
-    }
+        }
+
         //DBにタスク追加情報を登録
         taskService.saveTask(taskForm);
         // rootへリダイレクト

@@ -1,7 +1,6 @@
 package com.example.hikaru_tsubuki.controller.form;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.validation.constraints.*;
@@ -16,13 +15,9 @@ public class TaskForm implements Serializable {
 
     private int id;
 
-    //@Pattern(regexp = "[\\u3000]+$", message = "タスクは空白文字のみではいけません。")
-    //@NotBlank(message="タスクを入力してください")
-
-    //^(?!= 否定形(～で始まらない）(|　)= 全角スペースを通す。
-    //"[^(?!|　)]"= 全角スペースで始まらない物を通す。（全角スペースはエラー表示）
-    @Pattern(regexp = "^(?!^[\\s　]+$)([\\s\\S]*)$", message = "空白または改行のみの入力は許可されていません。")
-    @Length(max = 141, message="タスクは140文字以内で入力してください")
+    //^(?!= 否定形(～で始まらない). ^[\\s　]+$)([\\s\S]*)$=空白または改行
+    @Pattern(regexp = "^(?!^[\\s　]*$)([\\s\\S]*)$", message = "空白または改行のみの入力は許可されていません。")
+    @Length(max = 140, message="タスクは140文字以内で入力してください")
     private String content;
 
     private int status;
@@ -37,4 +32,5 @@ public class TaskForm implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdDate;
+
 }
