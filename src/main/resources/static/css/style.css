@@ -1,0 +1,71 @@
+.errorMessages {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	margin-left: 20px;
+	color: red;
+}
+
+.button {
+    height:25px;
+    width:100px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.Today {
+    margin-top: 10px;
+   	margin-bottom: 10px;
+   	margin-right: 10px;
+   	margin-left: 20px;
+}
+
+.edit-button {
+    display:inline-block
+}
+
+.delete-button {
+    display:inline-block
+
+}
+
+.limit-date {
+    display:inline-block
+}
+
+.change-button {
+    display:inline-block
+}
+
+.text {
+    display:inline-block
+}
+
+.limitStart {
+    margin-left: 10px;
+	margin-right: 10px;
+}
+
+.limitEnd {
+	margin-right: 30px;
+   	margin-left: 10px;
+}
+
+.status {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.textbox {
+    margin-left: 20px;
+	margin-right: 20px;
+}
+
+.message-icon {
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}

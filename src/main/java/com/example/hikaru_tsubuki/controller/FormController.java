@@ -3,6 +3,8 @@ package com.example.hikaru_tsubuki.controller;
 import com.example.hikaru_tsubuki.controller.form.TaskForm;
 import com.example.hikaru_tsubuki.repository.entity.Task;
 import com.example.hikaru_tsubuki.service.TaskService;
+import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,9 @@ public class FormController {
     @Autowired
     TaskService taskService;
 
+    @Autowired
+    HttpSession session;
+
     @GetMapping("/")
     public ModelAndView top(@RequestParam(name="start",required = false)String start,
                             @RequestParam(name="end",required = false)String end,
@@ -35,8 +40,12 @@ public class FormController {
 
         mav.addObject("now", now);
         mav.addObject("tasksData", tasksData);
-        //getStatusOptionsを呼び出して戻り値を(map)バリュ―としている。
+        List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
+        //格納した"errorMessages"をmavにセットしてhtmlに送信。
+        mav.addObject("errorMessages",errorMessages);
         mav.setViewName("top");
+
+        session.removeAttribute("errorMessages");
 
         return mav;
 
@@ -99,10 +108,20 @@ public class FormController {
      * 編集画面表示処理
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView editTask(@PathVariable Integer id) {
+    public ModelAndView editTask(@PathVariable String id) {
+                                                            //0-9の１文字以上
+        if (StringUtils.isBlank(id) || !id.matches("^[0-9]+$")) {
+            List<String> errorMessages = new ArrayList<>();
+            errorMessages.add("不正なパラメーターが入力されました");
+            session.setAttribute("errorMessages", errorMessages);
+            return new ModelAndView("redirect:/");
+        }
+
+        int intId = Integer.parseInt(id);
         ModelAndView mav = new ModelAndView();
+
         //編集する投稿のレコードを取得するメソッドの呼び出し。編集画面で表示させる為。
-        TaskForm task = taskService.editTask(id);
+        TaskForm task = taskService.editTask(intId);
         //mavにformModelという名前でreportをセットする。
         mav.addObject("formModel", task);
         //投稿編集画面に遷移する処理。
