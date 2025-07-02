@@ -13,26 +13,28 @@
     <form th:action="@{/taskUpdate/{id}(id=${formModel.id})}" th:object="${formModel}" th:method="put">
         <div class="form-area">
             <div th:object="${formModel}" >
-                <div class="error-message" th:if="${#fields.hasErrors('content')}"  th:errors="*{content}">
+                <div class="errorMessage" th:if="${#fields.hasErrors('content')}"  th:errors="*{content}">
                 </div>
-                <div class="error-message" th:if="${#fields.hasErrors('limitDate')}"  th:errors="*{limitDate}">
+                <div class="errorMessage" th:if="${#fields.hasErrors('limitDate')}"  th:errors="*{limitDate}">
                 </div>
             </div>
 
-            <label>タスク内容</label>
-            <textarea class="tweet-box" name="content" th:field="*{content}" size="20" maxlength="200" ></textarea><br/>
-            <label>タスク期限</label>
-            <input type="date" th:field="*{limitDate}">
-            <input type="hidden" th:field="*{status}">
-            <input type="hidden" th:field="*{updatedDate}">
-            <input type="hidden" th:field="*{createdDate}">
-            <input type="submit" value="更新"/>
+            <div class="label">タスク内容</div>
+            <textarea class="tweet-box" name="content" th:field="*{content}" rows="7" cols="40" ></textarea><br/>
+                <div class="label2">タスク期限</div>
+            <div class="editLimit">
+                <input type="date" th:field="*{limitDate}">
+                <input type="hidden" th:field="*{status}">
+                <input type="hidden" th:field="*{updatedDate}">
+                <input type="hidden" th:field="*{createdDate}">
+            </div>
+                <input class="addButton" type="submit" value="更新"/>
         </div>
     </form>
 </div>
 <div class="footer-contents">
     <form action="/">
-        <input type="submit" value="戻る" />
+        <a href="/">戻る</a>
     </form>
 </div>
 </body>

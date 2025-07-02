@@ -61,11 +61,114 @@
 .textbox {
     margin-left: 20px;
 	margin-right: 20px;
+	resize: none;
 }
 
 .message-icon {
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
+    margin-left: 30px;
+    margin-top: 30px;
+    text-align: left;
 }
+
+.table {
+    table-layout: fixed;
+    width: 80%;
+}
+
+.message-icon .task{
+    width: 500px;
+    word-break: break-all;
+    text-align: center;
+}
+.message-icon .status{
+    width: 150px;
+}
+.message-icon .limit{
+    width: 120px;
+}
+
+.message-icon .edit{
+    width: 60px;
+}
+
+.message-icon .delete{
+    width: 60px;
+}
+
+.main-contents .errorMessage {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 20px;
+    color: red;
+}
+
+.label {
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.tweet-box {
+    margin-bottom:: 10px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.label2 {
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.editLimit {
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-bottom:: 20px;
+}
+
+.addButton {
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-bottom:: 20px;
+}
+
+.footer-contents {
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-bottom:: 20px;
+}
+
+.status-item {
+     padding-left: 400px;
+     white-space: nowrap;
+     padding-top: 20px;
+}
+
+.task-item {
+    padding-top: 20px;
+    padding-left: 250px;
+    white-space: nowrap;
+
+}
+
+.limit-item {
+     padding-left: 340px;
+     white-space: nowrap;
+     padding-top: 20px;
+}
+
+.tweet-box {
+    resize: none;
+}
+
+.header-tasks {
+    background: cornsilk;
+}
+
+.form-area {
+    background: antiquewhite;
+}
+

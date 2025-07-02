@@ -5,9 +5,10 @@
     <link th:href="@{/css/style.css}" rel="styleSheet">
     <title>ToDo</title>
 </head>
-<div class="header-tasks">
-    <h2>ToDo</h2>
 <body>
+<div class="header-tasks">
+    <h1>ToDo</h1>
+
     <div th:if="${!#lists.isEmpty(errorMessages)}">
         <div class="errorMessages" th:each="messages : ${errorMessages}">
             <span th:text="${messages}"/>
@@ -24,53 +25,70 @@
             <form th:action="@{./}" th:method="get">
                 期限<input type="date" class="limitStart" name="start" value="${start}">
                 ～
-                        <input type="date" class="limitEnd" name="end" value="${end}">
-                         ステータス
-                            <select name="status" class="status" id="status">
-                                <option value="">   </option>
-                                <option value="1">未着手</option>
-                                <option value="2">実行中</option>
-                                <option value="3">ステイ中</option>
-                                <option value="4">完了</option>
-                            </select>
+                <input type="date" class="limitEnd" name="end" value="${end}">
+                ステータス
+                <select name="status" class="status" id="status">
+                    <option value=""></option>
+                    <option value="1">未着手</option>
+                    <option value="2">実行中</option>
+                    <option value="3">ステイ中</option>
+                    <option value="4">完了</option>
+                </select>
                 タスク内容<textarea name="content" class="textbox" rows="1" cols="10"></textarea>
                 <input type="submit" value="絞込"/>
             </form>
         </div>
-        　
+        <table class="table">
+            <tr>
+                <th class="task-item">タスク内容</th>
+                <th class="status-item">ステータス</th>
+                <th class="limit-item">タスク期限</th>
+                <th class="edit"></th>
+                <th class="delete"></th>
+            </tr>
+        </table>
         <div class="message-icon" th:each="tasks : ${tasksData}">
-            <div class="text">
-                タスク内容　<span th:text="${tasks.content}"></span>
-            </div>
-            <div class="change-button">
-                <form th:action="@{/update/{id}(id=${tasks.id})}"th:method="put">
-                    ステータス
-                    <select name="status">
-                            <option value="1" th:selected="${tasks.status == 1}">未着手</option>
-                            <option value="2" th:selected="${tasks.status == 2}">実行中</option>
-                            <option value="3" th:selected="${tasks.status == 3}">ステイ中</option>
-                            <option value="4" th:selected="${tasks.status == 4}">完了</option>
-                    </select>
-                        <input type="submit" onclick="return confirm('本当に変更しますか？');" value="変更">
-                </form>
-            </div>
-            <!--date型を文字列にして比較-->
-           <div class="limit-date"  th:if="${now gt tasks.limitDate}">
-               タスク期限  <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}" style="background-color:pink;"></span>
-          </div>
-           <div class="limit-date"  th:if="${now lt tasks.limitDate}">
-               タスク期限  <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}" style="background-color:yellow"></span>
-           </div>
-            <div class="edit-button">
-                <a th:href="@{/edit/{id}(id=${tasks.id})}">
-                    <input type="button" value="編集"></a>
-            </div>
-            <div class="delete-button">
-                <form th:action="@{/delete/{id}(id=${tasks.id})}" th:method="delete">
-                    <input type="submit" onclick="return confirm('本当に削除しますか？');" value="削除">
-                </form>
-            </div>
+            <table class="table">
+                <tr>
+                    <th class="task"><span th:text="${tasks.content}"></span></th>
+                    <th class="status">
+                        <form th:action="@{/update/{id}(id=${tasks.id})}" th:method="put">
+                            <select name="status">
+                                <option value="1" th:selected="${tasks.status == 1}">未着手</option>
+                                <option value="2" th:selected="${tasks.status == 2}">実行中</option>
+                                <option value="3" th:selected="${tasks.status == 3}">ステイ中</option>
+                                <option value="4" th:selected="${tasks.status == 4}">完了</option>
+                            </select>
+                            <input type="submit" onclick="return confirm('本当に変更しますか？');" value="変更">
+                        </form>
+                    </th>
+                    <th class="limit">
+                        <div class="limit-date" th:if="${now gt tasks.limitDate}">
+                            <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}"
+                                  style="background-color:pink;"></span>
+                        </div>
+                        <div class="limit-date" th:if="${now lt tasks.limitDate}">
+                            <span th:text="${#dates.format(tasks.limitDate, 'yyyy/MM/dd')}"
+                                  style="background-color:yellow"></span>
+                        </div>
+                    </th>
+                    <th class="edit">
+                        <div class="edit-button">
+                            <a th:href="@{/edit/{id}(id=${tasks.id})}">
+                                <input type="button" value="編集"></a>
+                        </div>
+                    </th>
+                    <th class="delete">
+                        <div class="delete-button">
+                            <form th:action="@{/delete/{id}(id=${tasks.id})}" th:method="delete">
+                                <input type="submit" onclick="return confirm('本当に削除しますか？');" value="削除">
+                            </form>
+                        </div>
+                    </th>
+                </tr>
+            </table>
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.example.hikaru_tsubuki.controller.form;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @Setter
 public class TaskForm implements Serializable {
-
 
     private int id;
 

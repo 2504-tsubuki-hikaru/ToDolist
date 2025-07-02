@@ -1,7 +1,7 @@
 package com.example.hikaru_tsubuki.controller;
 
 import com.example.hikaru_tsubuki.controller.form.TaskForm;
-import com.example.hikaru_tsubuki.repository.entity.Task;
+
 import com.example.hikaru_tsubuki.service.TaskService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpSession;
@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,12 +38,9 @@ public class FormController {
         mav.addObject("now", now);
         mav.addObject("tasksData", tasksData);
         List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
-        //格納した"errorMessages"をmavにセットしてhtmlに送信。
         mav.addObject("errorMessages",errorMessages);
         mav.setViewName("top");
-
         session.removeAttribute("errorMessages");
-
         return mav;
 
     }
