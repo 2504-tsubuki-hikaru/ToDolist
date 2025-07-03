@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--インターフェースと関連図ける-->
+<mapper namespace=".mapper.Mapper.java">
+    <!--resultMapでDBから取って来た値のしまう場所を指定。-->　
+    <!--type = DBアクセス結果のマッピング先-->
+    <resultMap id="TestResult" type="jp.co.kenshu.entity.Test">
+        <!--selectタグで取得された情報をtypeのどのフィールドにマッピングするかを指定しています。-->
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+    </resultMap>
+    <select id="getTest" resultMap="TestResult" parameterType="int">
+        select id, name
+        from test
+        where id = #{id}
+    </select>
+</mapper>
